@@ -118,6 +118,42 @@ public class zTagEvent extends Event {
         return gp;
     }
 
+    public void setForceSkinUpdate(boolean forceSkinUpdate) {
+        this.forceSkinUpdate = forceSkinUpdate;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
+    public void setUpdateChunk(boolean updateChunk) {
+        this.updateChunk = updateChunk;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public boolean isUpdateChunk() {
+        return updateChunk;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public boolean isForceSkinUpdate() {
+        return forceSkinUpdate;
+    }
+
     private static HandlerList handlerList = new HandlerList();
 
     public HandlerList getHandlers() {
