@@ -1,6 +1,5 @@
 package de.pkmnplatin.ztag.reflect;
 
-import lombok.Getter;
 import org.bukkit.Bukkit;
 
 /**
@@ -9,6 +8,11 @@ import org.bukkit.Bukkit;
 public enum Version {
 
     UNKNOWN("Before 1.8", 0),
+    v1_16_R1("1.16.1", 1161),
+    v1_16_R2("1.16.2 - 1.16.3", 1163),
+    v1_16_R3("1.16.4 - 1.16.5", 1165),
+    v1_15_R1("1.15 - 1.15.2", 1152),
+    v1_14_R1("1.14 - 1.14.4", 1144),
     v1_13_R2("1.13.1 - 1.13.2", 1132),
     v1_13_R1("1.13", 1130),
     v1_12_R1("1.12.0 - 1.12.1", 1121),
@@ -20,8 +24,8 @@ public enum Version {
     v1_8_R2("1.8.2", 182),
     v1_8_R1("1.8.0 - 1.8.1", 181);
 
-    @Getter private String mcVersion;
-    @Getter private int versionId;
+    private String mcVersion;
+    private int versionId;
 
     Version(String mcVersion, int versionId) {
         this.mcVersion = mcVersion;
@@ -50,5 +54,11 @@ public enum Version {
         return this.getVersionId() < version.getVersionId();
     }
 
+    public int getVersionId() {
+        return versionId;
+    }
 
+    public String getMcVersion() {
+        return mcVersion;
+    }
 }

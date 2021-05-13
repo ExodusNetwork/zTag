@@ -6,9 +6,6 @@ import de.pkmnplatin.ztag.profile.TagProfile;
 import de.pkmnplatin.ztag.reflect.Reflection;
 import de.pkmnplatin.ztag.util.GameProfileFetcher;
 import de.pkmnplatin.ztag.util.UUIDFetcher;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -25,15 +22,13 @@ import static de.pkmnplatin.ztag.reflect.Reflection.*;
 /**
  * Created by Jona on 06.07.2017.
  */
-@Getter
-@Setter
 public class zTagEvent extends Event {
 
     private static final ExecutorService pool = Executors.newCachedThreadPool();
 
-    @Setter(AccessLevel.NONE) private Player player;
-    @Setter(AccessLevel.NONE) private TagProfile profile;
-    @Setter(AccessLevel.NONE) private List<Player> players = new ArrayList<Player>();
+    private Player player;
+    private TagProfile profile;
+    private List<Player> players = new ArrayList<>();
 
     private boolean updateChunk = true;
     private boolean forceSkinUpdate = true;

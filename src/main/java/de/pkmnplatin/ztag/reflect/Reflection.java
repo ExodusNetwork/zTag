@@ -2,15 +2,12 @@ package de.pkmnplatin.ztag.reflect;
 
 import com.mojang.authlib.GameProfile;
 import de.pkmnplatin.ztag.TagBase;
-import net.minecraft.server.v1_13_R2.DimensionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
 import org.bukkit.entity.Player;
 
-import java.awt.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -24,7 +21,7 @@ public class Reflection {
     private static String version;
 
     private static String getVersion() {
-        if(version == null) {
+        if (version == null) {
             version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
         }
         return version;
@@ -34,7 +31,7 @@ public class Reflection {
         try {
             Field f = clazz.getDeclaredField(name);
             f.setAccessible(true);
-            if(Modifier.isFinal(f.getModifiers())) {
+            if (Modifier.isFinal(f.getModifiers())) {
                 getField(f.getClass(), "modifiers").set(f, Modifier.FINAL);
             }
             return f;
@@ -115,7 +112,7 @@ public class Reflection {
         Object packet = null;
         try {
             packet = getNMSClass("PacketPlayOutEntityDestroy").newInstance();
-            setValue(packet, packet.getClass(), "a", new int[] {entityId});
+            setValue(packet, packet.getClass(), "a", new int[]{entityId});
         } catch (Exception ex) {
             TagBase.log(ex);
         }
@@ -138,20 +135,20 @@ public class Reflection {
         Object obj = null;
         try {
             Version v = TagBase.getInstance().getVersion();
-            if(v.equals(Version.v1_8_R1)) {
+            if (v.equals(Version.v1_8_R1)) {
                 Class enumClass = getNMSClass("EnumPlayerInfoAction");
-                for(Field field : enumClass.getFields()) {
+                for (Field field : enumClass.getFields()) {
                     Object o = field.get(enumClass);
-                    if(o.toString().equals(action)) {
+                    if (o.toString().equals(action)) {
                         obj = o;
                     }
                 }
             } else {
                 Class packetClass = getNMSClass("PacketPlayOutPlayerInfo");
                 Class enumClass = packetClass.getClasses()[1];
-                for(Field field : enumClass.getFields()) {
+                for (Field field : enumClass.getFields()) {
                     Object o = field.get(enumClass);
-                    if(o.toString().equals(action)) {
+                    if (o.toString().equals(action)) {
                         obj = o;
                     }
                 }
@@ -189,12 +186,12 @@ public class Reflection {
             Object enumDifficulty = getEnumDifficulty(world.getDifficulty());
             Object worldType = getWorldType(world);
             Object enumGamemode = getEnumGamemode(player.getGameMode());
-            if(TagBase.getInstance().getVersion().isOlderThan(Version.v1_13_R1)) {
+            if (TagBase.getInstance().getVersion().isOlderThan(Version.v1_13_R1)) {
                 int enviroment = world.getEnvironment().getId();
-                packet = packetConstructor.newInstance(enviroment, enumDifficulty, worldType , enumGamemode);
+                packet = packetConstructor.newInstance(enviroment, enumDifficulty, worldType, enumGamemode);
             } else {
                 Object dimensionManager = getNMSClass("DimensionManager").getMethod("a", int.class).invoke(null, world.getEnvironment().getId());
-                packet = packetConstructor.newInstance(dimensionManager, enumDifficulty, worldType , enumGamemode);
+                packet = packetConstructor.newInstance(dimensionManager, enumDifficulty, worldType, enumGamemode);
             }
         } catch (Exception ex) {
             TagBase.log(ex);
@@ -205,7 +202,7 @@ public class Reflection {
     public static Object getPlayerInfoData(Object infoPacket, GameProfile gp, int ping, GameMode gameMode, String name) {
         Object playerInfoData = null;
         try {
-            if(TagBase.getInstance().getVersion().equals(Version.v1_8_R1)) {
+            if (TagBase.getInstance().getVersion().equals(Version.v1_8_R1)) {
                 playerInfoData = getNMSClass("PlayerInfoData").getConstructors()[0].newInstance(infoPacket, gp, ping, getEnumGamemode(gameMode), getNameFromString(name));
             } else {
                 Constructor infoConstruct = getNMSClass("PacketPlayOutPlayerInfo").getClasses()[0].getConstructors()[0];
@@ -220,12 +217,12 @@ public class Reflection {
     public static Object getEnumGamemode(GameMode gameMode) {
         Object enumGamemode = null;
         int value = -1;
-        if(gameMode != null) {
+        if (gameMode != null) {
             value = gameMode.getValue();
         }
         try {
             Version version = TagBase.getInstance().getVersion();
-            if(version.equals(Version.v1_8_R2) || version.equals(Version.v1_8_R3) || version.equals(Version.v1_9_R1) || version.equals(Version.v1_9_R2)) {
+            if (version.equals(Version.v1_8_R2) || version.equals(Version.v1_8_R3) || version.equals(Version.v1_9_R1) || version.equals(Version.v1_9_R2)) {
                 Class worldSettings = getNMSClass("WorldSettings");
                 Class enumGamemodeClass = worldSettings.getClasses()[0];
                 enumGamemode = enumGamemodeClass.getMethod("getById", int.class).invoke(null, value);
@@ -265,7 +262,7 @@ public class Reflection {
         Object string = null;
         try {
             Class craftChatMessage = getCraftbukkitClass("util.CraftChatMessage");
-            string = ((Object[])craftChatMessage.getMethod("fromString", String.class).invoke(null, name))[0];
+            string = ((Object[]) craftChatMessage.getMethod("fromString", String.class).invoke(null, name))[0];
         } catch (Exception ex) {
             TagBase.log(ex);
         }

@@ -1,17 +1,14 @@
 package de.pkmnplatin.ztag.profile;
 
 import de.pkmnplatin.ztag.TagBase;
-import lombok.Getter;
 import org.bukkit.entity.Player;
 
 /**
  * Created by Jona on 06.07.2017.
  */
-@Getter
 public class TagProfile {
 
     private final Player player;
-
     private String tag;
     private String skin;
     private final String realName;
@@ -21,6 +18,22 @@ public class TagProfile {
         this.realName = realName;
         this.tag = tag;
         this.skin = skin;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void update() {
